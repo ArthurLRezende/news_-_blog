@@ -60,6 +60,7 @@
     right: 1rem;
     transform: translateY(-50%);
     font-size: 1.6rem;
+    cursor: pointer;
 }
 
 .news-content {
