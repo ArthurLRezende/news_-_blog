@@ -5,7 +5,7 @@ import "./News.css";
 import profileimg from "../assets/images/user.jpg"
 import noImage from "../assets/images/no-img.png"
 import axios from "axios"
-
+import NewsModal from "./newsModal"
 
 const News = () => {
 
@@ -18,6 +18,8 @@ const News = () => {
     const [selectedCategory, setSelectedCategory] = useState("general")
     const [searchInput, setSearchInput] = useState('')
     const [searchQuery, setSearchQuery] = useState('')
+    const [showModal, setShowModal] = useState(null)
+    const [selectedArticle, setSelectedArticle] = useState(null)
 
     useEffect(() => {
         const fetchNews = async () => {
@@ -50,6 +52,11 @@ const News = () => {
         e.preventDefault()
         setSearchQuery(searchInput)
         setSearchInput('')
+    }
+
+    const handleModal = (article) =>  {
+        setSelectedArticle(article)
+        setShowModal(true)
     }
 
     return <div className="news">
@@ -85,14 +92,16 @@ const News = () => {
             </div>
             <div className="news-section">
                 {headline && (
-                    <div className="headline">
+                    <div className="headline" onClick={()=>{
+                        handleModal(headline)
+                    }}>
                         <img src={headline.image} alt={headline.title} />
                         <h2 className="headline-title">{headline.title}<i className="fa-regular fa-bookmark bookmark"></i></h2>
                     </div>
                 )}
                 <div className="news-grid">
                     {news && (news.map((article, index) => (
-                        <div key={index} className="news-grid-item">
+                        <div key={index} className="news-grid-item" onClick={()=>{handleModal(article)}}>
                             {article.image ? <img src={article.image} alt={article.title} /> :
                                 <img src={noImage} alt={article.title} />}
 
@@ -100,6 +109,7 @@ const News = () => {
                         </div>
                     )))}
                 </div>
+                 <NewsModal show={showModal} article={selectedArticle} onClose={() => {setShowModal(false)}}/>
             </div>
             <div className="my-blogs">My blogs</div>
             <div className="Weather-Calendar">
