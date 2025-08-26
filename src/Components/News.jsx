@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import Weather from "./Weather";
 import Calendar from "./Calendar";
 import "./News.css";
@@ -6,6 +6,7 @@ import profileimg from "../assets/images/user.jpg"
 import noImage from "../assets/images/no-img.png"
 import axios from "axios"
 import NewsModal from "./newsModal"
+import Bookmarks from "./bookmarks";
 
 const News = () => {
 
@@ -20,6 +21,8 @@ const News = () => {
     const [searchQuery, setSearchQuery] = useState('')
     const [showModal, setShowModal] = useState(null)
     const [selectedArticle, setSelectedArticle] = useState(null)
+    const [bookmarks, setBookmarks] = useState([])
+    const [showBookmarksModal, setShowBookmarksModal] = useState(false)
 
     useEffect(() => {
         const fetchNews = async () => {
@@ -54,10 +57,23 @@ const News = () => {
         setSearchInput('')
     }
 
-    const handleModal = (article) =>  {
+    const handleModal = (article) => {
         setSelectedArticle(article)
         setShowModal(true)
     }
+
+    const handleBookmarkClick = (article) => {
+        setBookmarks((prevBookmarks) => {
+            const updatedBookmarks = prevBookmarks.find(
+                (bookmark) => bookmark.title === article.title
+            )
+                ? prevBookmarks.filter((bookmark) => bookmark.title !== article.title)
+                : [...prevBookmarks, article];
+
+            return updatedBookmarks;
+        });
+    };
+
 
     return <div className="news">
         <header className="news-header">
@@ -92,7 +108,7 @@ const News = () => {
             </div>
             <div className="news-section">
                 {headline && (
-                    <div className="headline" onClick={()=>{
+                    <div className="headline" onClick={() => {
                         handleModal(headline)
                     }}>
                         <img src={headline.image} alt={headline.title} />
@@ -101,7 +117,7 @@ const News = () => {
                 )}
                 <div className="news-grid">
                     {news && (news.map((article, index) => (
-                        <div key={index} className="news-grid-item" onClick={()=>{handleModal(article)}}>
+                        <div key={index} className="news-grid-item" onClick={() => { handleModal(article) }}>
                             {article.image ? <img src={article.image} alt={article.title} /> :
                                 <img src={noImage} alt={article.title} />}
 
@@ -109,7 +125,8 @@ const News = () => {
                         </div>
                     )))}
                 </div>
-                 <NewsModal show={showModal} article={selectedArticle} onClose={() => {setShowModal(false)}}/>
+                <NewsModal show={showModal} article={selectedArticle} onClose={() => { setShowModal(false) }} />
+                <Bookmarks show={bookmarks} />
             </div>
             <div className="my-blogs">My blogs</div>
             <div className="Weather-Calendar">
