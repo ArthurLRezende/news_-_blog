@@ -71,8 +71,24 @@
     font-size: 5rem;
 }
 
-.weather-data i.bx-sun{
+.weather-data i.bxs-sun{
     color: #ffc87c;
+}
+
+.weather-data i.bxs-cloud{
+    color: #fff;
+}
+
+.weather-data i.bxs-cloud-rain{
+    color: #5fd1f9;
+}
+
+.weather-data i.bxs-cloud-lighting{
+    color: #154abd;
+}
+
+.weather-data i.bxs-cloud-snow{
+    color: #52e5e7;
 }
 
 .weather-type, .temp{
@@ -80,3 +96,4 @@
     font-size: 2rem;
     color: #ddd;
 }
+

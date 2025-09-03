@@ -155,7 +155,14 @@ const News = () => {
                 <Calendar />
             </div>
         </div>
-        <div className="news-footer">footer</div>
+        <div className="news-footer">
+            <p>
+                <span> News & Blogs App</span>
+            </p>
+            <p>
+                &copy; All Right Reserved. By ArtMix
+            </p>
+        </div>
     </div>
 }
 
